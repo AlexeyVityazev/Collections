@@ -1,4 +1,4 @@
-import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ public class CarListTest {
     private CarList carList;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         carList = new CarArrayList();
         for (int i = 0; i < 100; i++) {
             carList.add(new Car("Brand" + i, i));
@@ -38,7 +38,7 @@ public class CarListTest {
     }
 
     @Test
-    public void whenNonExistenElementRemovedThenReturnFalse() {
+    public void whenNonExistenceElementRemovedThenReturnFalse() {
         Car car = new Car("Jily", 12);
         assertFalse(carList.remove(car));
         assertEquals(100, carList.size());
