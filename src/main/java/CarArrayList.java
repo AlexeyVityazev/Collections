@@ -13,15 +13,19 @@ public class CarArrayList implements CarList {
 
     @Override
     public void add(Car car) {
-        if (size >= array.length) {
-          /*  Car[] newArray = new Car[array.length * 2]; // Эту функцию берет на себя метод copyOf класса Arrays
-            for (int i = 0; i < array.length; i++) {
-                newArray[i] = array[i];
-            }
-            array = newArray;*/
-            array = Arrays.copyOf(array, array.length * 2);
-        }
+        increaseArray();
         array[size] = car;
+        size++;
+    }
+
+    @Override
+    public void add(Car car, int index) {
+        increaseArray();
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        System.arraycopy(array,index,array,index + 1,size - index);
+        array[index] = car;
         size++;
     }
 
@@ -37,14 +41,18 @@ public class CarArrayList implements CarList {
 
     @Override
     public boolean removeAt(int index) {
-        checkIndex(index);
-        for (int i = index; i < size - 1; i++) {
-            array[i] = array[i + 1];
-        }
+//        checkIndex(index);
+//        for (int i = index; i < size - 1; i++) {
+//            array[i] = array[i + 1];
+//        }
+      //  size--;
+//        if (index < 0 || index > size) {
+//            throw new IndexOutOfBoundsException();
+//        }
+        System.arraycopy(array, index + 1,array,index,size - index - 1);
         size--;
         return true;
     }
-
     @Override
     public int size() {
         return size;
@@ -57,9 +65,20 @@ public class CarArrayList implements CarList {
 
     }
 
-    private void checkIndex(int index) {
+    public void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
+        }
+    }
+
+    public void increaseArray(){
+        if (size >= array.length) {
+          /*  Car[] newArray = new Car[array.length * 2]; // Эту функцию берет на себя метод copyOf класса Arrays
+            for (int i = 0; i < array.length; i++) {
+                newArray[i] = array[i];
+            }
+            array = newArray;*/
+            array = Arrays.copyOf(array, array.length * 2);
         }
     }
 }
